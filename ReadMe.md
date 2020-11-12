@@ -21,3 +21,8 @@ This hardwarelist is a recommendation. You may use other suppliers for cheaper p
 
 Could be found in 3D Models. Hardware could easily mounted to a wall or just stand on a table.
 
+
+![rendering of casings](https://github.com/harmoniemand/airquality/blob/main/assets/RenderingEnv_2020-Nov-12_05-47-15AM-000_CustomizedView1602486251_png.png)
+
+
+
