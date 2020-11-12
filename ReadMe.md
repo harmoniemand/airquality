@@ -1,5 +1,8 @@
 # Airquality Sensor
 
+![image of a sensor](https://github.com/harmoniemand/airquality/blob/main/assets/20201111-_K0A0501.jpg?raw=true)
+
+
 ## Hardware
 
 This hardwarelist is a recommendation. You may use other suppliers for cheaper prices. The printable cases are designed for this hardware.
