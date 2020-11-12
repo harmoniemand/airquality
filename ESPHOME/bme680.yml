@@ -1,0 +1,161 @@
+
+# https://github.com/esphome/issues/issues/1209
+
+# pio lib install "me-no-dev/AsyncTCP"
+# pio lib install "ottowinter/ESPAsyncWebServer-esphome"
+# pio lib install "boschsensortec/BSEC Software Library"
+
+
+# Edit platformio.ini - add:
+#   lib_deps = BSEC Software Library
+#   build_flags = -I C:/Users/jonathan.guenz/.platformio/lib/BSEC\ Software\ Library/src/inc -L C:/Users/jonathan.guenz/.platformio/lib/BSEC\ Software\ Library/src/esp32 -lalgobsec
+
+
+esphome:
+  name: makerspace_digitalwerkstatt_bme680
+  platform: ESP32
+  board: esp32dev
+
+  includes: 
+    - 'CE_BSEC.h'
+
+  libraries:
+    - 'BSEC Software Library'
+
+  platformio_options:
+    upload_speed: 115200
+    lib_deps: 
+      NeoPixelBus@2.5.6
+
+  on_boot:
+    then:
+      - light.turn_on:
+          id: co2_ampel
+          effect: warnings 
+  
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # manual_ip:
+  #   static_ip: 172.18.1.232
+  #   gateway: 172.18.0.1
+  #   subnet: 255.255.240.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Digitalwerkstatt Bme680"
+    password: !secret wifi_ap_password
+  
+captive_portal:
+  
+# Enable logging
+logger:
+  
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+  
+ota:
+  password: !secret ota_password
+  
+# Example configuration entry
+i2c:
+  sda: 21
+  scl: 22
+  scan: True
+  id: bus_a
+  
+# Example configuration entry
+sensor:
+  - platform: custom
+    lambda: |-
+      auto IAQSensor = new CE_BSEC();
+      IAQSensor->Intervall = 10000;
+      App.register_component(IAQSensor);
+      return {
+        IAQSensor->RawTemperatureSensor,
+        IAQSensor->PressureSensor,
+        IAQSensor->RawHumiditySensor,
+        IAQSensor->GasResistanceSensor,
+        IAQSensor->IaqSensor,
+        IAQSensor->IaqAccuracySensor,
+        IAQSensor->TemperatureSensor,
+        IAQSensor->HumiditySensor,
+        IAQSensor->StaticIaqSensor,
+        IAQSensor->Co2EquivalentSensor,
+        IAQSensor->BreathVocEquivalentSensor,
+        IAQSensor->ErrorSensor
+      };
+    sensors:
+      - name: "BSEC BME680 RawTemperatureSensor"
+        unit_of_measurement: '°C'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 PressureSensor"
+        unit_of_measurement: 'hPa'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 RawHumiditySensor"
+        unit_of_measurement: '%'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 GasResistanceSensor"
+        unit_of_measurement: 'Ohm'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 IaqSensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+        id: bsec_bme680_iaq_sensor
+      - name: "BSEC BME680 IaqAccuracySensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+      - name: "BSEC BME680 TemperatureSensor"
+        unit_of_measurement: '°C'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 HumiditySensor"
+        unit_of_measurement: '%'
+        accuracy_decimals: 1
+      - name: "BSEC BME680 StaticIaqSensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+      - name: "BSEC BME680 Co2EquivalentSensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+      - name: "BSEC BME680 BreathVocEquivalentSensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+      - name: "BSEC BME680 ErrorSensor"
+        unit_of_measurement: ''
+        accuracy_decimals: 1
+
+
+light:
+  - platform: neopixelbus
+    type: grbw
+    pin: GPIO5
+    num_leds: 5
+    id: co2_ampel
+    name: "CO2 Ampel"
+    variant: SK6812
+    default_transition_length: 3s
+    effects: 
+      - addressable_lambda:
+          name: "warnings"
+          update_interval: 16ms
+          lambda: |-
+            int alarm_value = 150;
+            int step_size = 40;
+
+            it.all().fade_to_black(0);
+            if (id(bsec_bme680_iaq_sensor).state > alarm_value)
+              it[4] = ESPColor(255, 0, 0);
+            
+            if (id(bsec_bme680_iaq_sensor).state > alarm_value - step_size)
+              it[3] = ESPColor(255, 125, 0);
+            
+            if (id(bsec_bme680_iaq_sensor).state > alarm_value - (step_size*2))
+              it[2] = ESPColor(255, 255, 0);
+            
+            if (id(bsec_bme680_iaq_sensor).state > alarm_value - (step_size*3))
+              it[1] = ESPColor(150, 255, 0);
+            
+            it[0] = ESPColor(  0, 255, 0);
+            
