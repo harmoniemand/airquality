@@ -134,7 +134,7 @@ light:
     num_leds: 5
     id: co2_ampel
     name: "CO2 Ampel"
-    variant: SK6812
+    variant: SK6812   # type may be different - could also be WS2812 ( look here https://esphome.io/components/light/neopixelbus.html)
     default_transition_length: 3s
     effects: 
       - addressable_lambda:
