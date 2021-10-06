@@ -25,4 +25,20 @@ Could be found in 3D Models. Hardware could easily mounted to a wall or just sta
 ![rendering of casings](https://github.com/harmoniemand/airquality/blob/main/assets/RenderingEnv_2020-Nov-12_05-47-15AM-000_CustomizedView1602486251_png.png)
 
 
+## QuickStart (maybe not complete)
 
+
+    # install plattformio -> https://docs.platformio.org/en/latest//core/installation.html
+    pip3 install esphome
+    
+    cd makerspace_digitalwerkstatt_bme680
+    pio lib install "me-no-dev/AsyncTCP"
+    pio lib install "ottowinter/ESPAsyncWebServer-esphome"
+    pio lib install "boschsensortec/BSEC Software Library"
+    cd ..
+    
+    esphome run bme680.yml
+    
+    
+
+    
