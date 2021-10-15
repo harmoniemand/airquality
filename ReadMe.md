@@ -25,6 +25,14 @@ Could be found in 3D Models. Hardware could easily mounted to a wall or just sta
 ![rendering of casings](https://github.com/harmoniemand/airquality/blob/main/assets/RenderingEnv_2020-Nov-12_05-47-15AM-000_CustomizedView1602486251_png.png)
 
 
+## Pins
+
+ESP32
+ Pin 21 -------> SDA
+ Pin 22 -------> SCL
+ PIN  5 -------> LED DATA
+
+
 ## QuickStart (maybe not complete)
 
 
