@@ -30,7 +30,7 @@ Could be found in 3D Models. Hardware could easily mounted to a wall or just sta
     ESP32           BME680           LED Stripe
      Pin 21 -------> SDA
      Pin 22 -------> SCL
-     5V -----------> Vin
+     3.3V ---------> 3.3V
      GND ----------> GND
      PIN  5 -------------------------> LED DATA
      5V -----------------------------> LED +
