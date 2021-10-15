@@ -26,11 +26,15 @@ Could be found in 3D Models. Hardware could easily mounted to a wall or just sta
 
 
 ## Pins
-
-ESP32
- Pin 21 -------> SDA
- Pin 22 -------> SCL
- PIN  5 -------> LED DATA
+    
+    ESP32           BME680           LED Stripe
+     Pin 21 -------> SDA
+     Pin 22 -------> SCL
+     5V -----------> Vin
+     GND ----------> GND
+     PIN  5 -------------------------> LED DATA
+     5V -----------------------------> LED +
+     GND ----------------------------> GND
 
 
 ## QuickStart (maybe not complete)
