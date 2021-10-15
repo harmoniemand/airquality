@@ -39,9 +39,16 @@ Could be found in 3D Models. Hardware could easily mounted to a wall or just sta
 
 ## QuickStart (maybe not complete)
 
+    # you need to have python3 and pip installed
+    # https://www.python.org/downloads/
+    python3 --version
+    pip --version
 
-    # install plattformio -> https://docs.platformio.org/en/latest//core/installation.html
+    # you need to have plattformio installed
+    # https://docs.platformio.org/en/latest//core/installation.html
     pip3 install esphome
+    
+    esphome run bme680.yml
     
     cd makerspace_digitalwerkstatt_bme680
     pio lib install "me-no-dev/AsyncTCP"
