@@ -13,8 +13,8 @@
 
 esphome:
   name: makerspace_digitalwerkstatt_bme680
-  platform: ESP32
-  board: esp32dev
+  platform: esp32
+  board: esp32doit-devkit-v1
 
   includes: 
     - 'CE_BSEC.h'
@@ -24,8 +24,13 @@ esphome:
 
   platformio_options:
     upload_speed: 115200
-    lib_deps: 
-      NeoPixelBus@2.5.6
+    lib_ldf_mode: deep
+    lib_deps:
+      - https://github.com/Makuna/NeoPixelBus.git
+      - me-no-dev/AsyncTCP@^1.1.1
+      - https://github.com/me-no-dev/ESPAsyncWebServer.git
+      - ottowinter/ESPAsyncWebServer-esphome@^1.3.0
+      - boschsensortec/BSEC Software Library@^1.6.1480
 
   on_boot:
     then:
@@ -43,11 +48,11 @@ wifi:
   #   subnet: 255.255.240.0
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Digitalwerkstatt Bme680"
-    password: !secret wifi_ap_password
+  # ap:
+  #   ssid: "Digitalwerkstatt Bme680"
+  #   password: !secret wifi_ap_password
   
-captive_portal:
+# captive_portal:
   
 # Enable logging
 logger:
@@ -101,11 +106,11 @@ sensor:
         unit_of_measurement: 'Ohm'
         accuracy_decimals: 1
       - name: "BSEC BME680 IaqSensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'Pt'
         accuracy_decimals: 1
         id: bsec_bme680_iaq_sensor
       - name: "BSEC BME680 IaqAccuracySensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'Pt'
         accuracy_decimals: 1
       - name: "BSEC BME680 TemperatureSensor"
         unit_of_measurement: '°C'
@@ -114,16 +119,16 @@ sensor:
         unit_of_measurement: '%'
         accuracy_decimals: 1
       - name: "BSEC BME680 StaticIaqSensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'Pt'
         accuracy_decimals: 1
       - name: "BSEC BME680 Co2EquivalentSensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'ppm'
         accuracy_decimals: 1
       - name: "BSEC BME680 BreathVocEquivalentSensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'ppm'
         accuracy_decimals: 1
       - name: "BSEC BME680 ErrorSensor"
-        unit_of_measurement: ''
+        unit_of_measurement: 'Times'
         accuracy_decimals: 1
 
 

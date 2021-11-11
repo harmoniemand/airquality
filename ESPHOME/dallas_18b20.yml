@@ -1,0 +1,54 @@
+
+# https://github.com/esphome/issues/issues/1209
+
+# pio lib install "me-no-dev/AsyncTCP"
+# pio lib install "ottowinter/ESPAsyncWebServer-esphome"
+# pio lib install "boschsensortec/BSEC Software Library"
+
+
+# Edit platformio.ini - add:
+#   lib_deps = BSEC Software Library
+#   build_flags = -I C:/Users/jonathan.guenz/.platformio/lib/BSEC\ Software\ Library/src/inc -L C:/Users/jonathan.guenz/.platformio/lib/BSEC\ Software\ Library/src/esp32 -lalgobsec
+
+
+esphome:
+  name: makerspace_digitalwerkstatt_bme680
+  platform: ESP32
+  board: esp32dev
+
+  platformio_options:
+    upload_speed: 115200
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # manual_ip:
+  #   static_ip: 172.18.1.232
+  #   gateway: 172.18.0.1
+  #   subnet: 255.255.240.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Digitalwerkstatt Bme680"
+    password: !secret wifi_ap_password
+  
+captive_portal:
+  
+# Enable logging
+logger:
+  
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+  
+ota:
+  password: !secret ota_password
+  
+dallas:
+  - pin: GPIO23
+
+sensor:
+  - platform: dallas
+    address: 0x1C0000031EDD2A28
+    name: "SFZ 01 Temperature"
